@@ -1,0 +1,20 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.andressantibanez.sarapp">
+
+    <application
+        android:name=".Sarapp"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <provider
+            android:authorities="com.andressantibanez.sarapp"
+            android:name=".database.SarappProvider"
+            android:exported="false"
+            android:enabled="true" />
+
+    </application>
+
+</manifest>

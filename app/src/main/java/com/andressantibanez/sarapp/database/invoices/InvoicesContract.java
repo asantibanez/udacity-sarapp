@@ -26,6 +26,7 @@ public class InvoicesContract {
 
     public static class OrderBy {
         public static final String ISSUING_DATE_ASC = Columns.ISSUING_DATE + " ASC";
+        public static final String ISSUING_DATE_DESC = Columns.ISSUING_DATE + " DESC";
     }
 
 }

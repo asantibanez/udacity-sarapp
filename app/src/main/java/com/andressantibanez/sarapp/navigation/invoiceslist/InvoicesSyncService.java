@@ -6,12 +6,9 @@ import android.content.Context;
 
 import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.database.invoices.Invoice;
-import com.andressantibanez.sarapp.endpoints.SarappWebApi;
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.exceptions.CreateRecordException;
-
-import java.util.Date;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -39,7 +36,7 @@ public class InvoicesSyncService extends IntentService {
         for (GetInvoicesResponse.Invoice data: getInvoicesResponse.invoices) {
             Invoice invoice = Invoice.fromParts(
                     data.id, data.supplierName, data.supplierTaxpayerId,
-                    new Date(), data.subtotal, data.tax, data.total
+                    data.issuingDate(), data.subtotal, data.tax, data.total
             );
 
             try {

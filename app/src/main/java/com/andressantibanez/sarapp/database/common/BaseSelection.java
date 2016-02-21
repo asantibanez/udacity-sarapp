@@ -18,6 +18,7 @@ public abstract class BaseSelection<T extends BaseSelection> {
 
     ArrayList<String> selectionParts;
     ArrayList<String> selectionArgsParts;
+    String orderBy;
 
     public BaseSelection() {
         selectionParts = new ArrayList<>();
@@ -48,17 +49,26 @@ public abstract class BaseSelection<T extends BaseSelection> {
                 null;
     }
 
+    public T orderBy(String orderBy) {
+        this.orderBy = orderBy;
+        return (T) this;
+    }
+
+    public String order() {
+        return orderBy;
+    }
+
     public abstract Uri uri();
     public abstract BaseCursor get();
 
     protected Cursor getCursor() {
         return SarappProvider.context()
                 .getContentResolver()
-                .query(uri(), null, selection(), selectionArgs(), null);
+                .query(uri(), null, selection(), selectionArgs(), order());
     }
 
     public CursorLoader getAsCursorLoader() {
-        return new CursorLoader(SarappProvider.context(), uri(), null, selection(), selectionArgs(), null);
+        return new CursorLoader(SarappProvider.context(), uri(), null, selection(), selectionArgs(), order());
     }
 
 }

@@ -79,7 +79,12 @@ public class SarappProvider extends ContentProvider {
         Log.d(LOG_TAG, String.format("query | uri=%s, projection=%s, selection=%s, selectionArgs=%s, orderBy=%s", uri, Arrays.toString(projection), selection, Arrays.toString(selectionArgs), orderBy));
 
         String table = uri.getLastPathSegment();
-        return readableDatabase().query(table, projection, selection, selectionArgs, null, null, orderBy);
+        Cursor cursor = readableDatabase().query(table, projection, selection, selectionArgs, null, null, orderBy);
+
+        if(cursor != null)
+            cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        return cursor;
     }
 
     @Nullable

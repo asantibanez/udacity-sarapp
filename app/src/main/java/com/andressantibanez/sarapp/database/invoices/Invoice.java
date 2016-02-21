@@ -8,6 +8,9 @@ import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsContrac
 import com.andressantibanez.sarapp.exceptions.CreateRecordException;
 import com.andressantibanez.sarapp.exceptions.RecordNotFoundException;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -80,6 +83,22 @@ public class Invoice {
         values.put(InvoicesContract.Columns.TOTAL, total);
 
         return values;
+    }
+
+    private String asMoneyString(double value) {
+        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
+        decimalFormatSymbols.setDecimalSeparator('.');
+        decimalFormatSymbols.setGroupingSeparator(',');
+        return "$ " + new DecimalFormat("####.##", decimalFormatSymbols).format(value);
+    }
+
+    public String readableSubtotal() {
+        return asMoneyString(subtotal);
+    }
+
+    public String readableIssuingDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+        return dateFormat.format(issuingDate);
     }
 
 }

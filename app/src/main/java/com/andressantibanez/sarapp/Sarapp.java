@@ -3,6 +3,8 @@ package com.andressantibanez.sarapp;
 import android.app.Application;
 import android.content.Context;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 /**
  * Created by asantibanez on 2/20/16.
  */
@@ -16,6 +18,8 @@ public class Sarapp extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
+        JodaTimeAndroid.init(this);
     }
 
     public static Sarapp instance() {

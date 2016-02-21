@@ -16,6 +16,13 @@ public class InvoicesCursor extends BaseCursor {
         super(cursor);
     }
 
+    public Invoice invoiceAt(int position) {
+        if(!moveToPosition(position))
+            return null;
+
+        return invoice();
+    }
+
     private Invoice invoice() {
         String id = getString(getColumnIndex(InvoicesContract.Columns.ID));
         String supplierName = getString(getColumnIndex(InvoicesContract.Columns.SUPPLIER_NAME));

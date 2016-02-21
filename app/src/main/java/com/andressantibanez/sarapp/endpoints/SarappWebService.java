@@ -1,5 +1,6 @@
 package com.andressantibanez.sarapp.endpoints;
 
+import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 import com.google.gson.Gson;
 
@@ -42,23 +43,27 @@ public class SarappWebService {
         return new SarappWebService();
     }
 
-    public LoginResponse login(String email, String password) {
-        LoginResponse data = null;
-        Response<LoginResponse> response = null;
+    public LoginResponse login(LoginRequest loginRequest) {
+        LoginResponse loginResponse;
+        Response<LoginResponse> response;
+
+        String email = loginRequest.email;
+        String password = loginRequest.password;
+
         try {
             response = service.login(email, password).execute();
 
             if(response.code() == 200)
-                data = response.body();
+                loginResponse = response.body();
             else
-                data = new Gson().fromJson(response.errorBody().string(), LoginResponse.class);
+                loginResponse = new Gson().fromJson(response.errorBody().string(), LoginResponse.class);
 
         } catch (IOException e) {
-            data = new LoginResponse();
-            data.errors.add("Error al contactar servidor.");
+            loginResponse = new LoginResponse();
+            loginResponse.errors.add("Error al contactar servidor.");
         }
 
-        return data;
+        return loginResponse;
     }
 
 }

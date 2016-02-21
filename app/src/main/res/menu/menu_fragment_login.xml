@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/valid_credentials"
+        android:title="@string/menu_use_valid_credentials"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/invalid_credentials"
+        android:title="@string/menu_use_invalid_credentials"
+        app:showAsAction="never" />
+</menu>

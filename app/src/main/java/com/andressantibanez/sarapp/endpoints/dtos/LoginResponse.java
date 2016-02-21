@@ -15,4 +15,8 @@ public class LoginResponse {
         errors = new ArrayList<>();
     }
 
+    public boolean hasErrors() {
+        return errors.size() > 0;
+    }
+
 }

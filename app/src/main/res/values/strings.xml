@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">Sarapp</string>
+
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_first_name">First Name</string>
+    <string name="hint_last_name">Last Name</string>
+
+    <string name="button_login">Login</string>
+    <string name="button_register">Register</string>
+
+    <string name="help_not_a_member">Don\'t have an account? Register here.</string>
+    <string name="help_already_a_member">Already have an account? Login here.</string>
+
+    <string name="menu_use_valid_credentials">Use valid credentials</string>
+    <string name="menu_use_invalid_credentials">Use invalid credentials</string>
+
 </resources>

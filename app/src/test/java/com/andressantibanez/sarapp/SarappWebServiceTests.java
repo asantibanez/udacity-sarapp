@@ -1,6 +1,7 @@
 package com.andressantibanez.sarapp;
 
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
+import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 
 import org.junit.Test;
@@ -19,16 +20,16 @@ public class SarappWebServiceTests {
 
     @Test
     public void validLogin() {
-        LoginResponse loginResponse;
-        loginResponse = SarappWebService.create().login("santibanez.andres@gmail.com", "orellana");
+        LoginRequest loginRequest = new LoginRequest("santibanez.andres@gmail.com", "orellana");
+        LoginResponse loginResponse = SarappWebService.create().login(loginRequest);
         assertThat(loginResponse.token.length() > 0, is(true));
         assertThat(loginResponse.errors.size() == 0, is(true));
     }
 
     @Test
     public void invalidLogin() {
-        LoginResponse loginResponse;
-        loginResponse = SarappWebService.create().login("invalid@email.com", "hello");
+        LoginRequest loginRequest = new LoginRequest("invalid@email.com", "hello");
+        LoginResponse loginResponse = SarappWebService.create().login(loginRequest);
         assertThat(loginResponse.token.length(), is(0));
         assertThat(loginResponse.errors.size() > 0, is(true));
     }

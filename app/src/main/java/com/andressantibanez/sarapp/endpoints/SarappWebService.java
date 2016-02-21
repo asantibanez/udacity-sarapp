@@ -1,5 +1,6 @@
 package com.andressantibanez.sarapp.endpoints;
 
+import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 import com.google.gson.Gson;
@@ -60,10 +61,30 @@ public class SarappWebService {
 
         } catch (IOException e) {
             loginResponse = new LoginResponse();
-            loginResponse.errors.add("Error al contactar servidor.");
+            loginResponse.errors.add("Error while contacting server. Please try again");
         }
 
         return loginResponse;
+    }
+
+    public GetInvoicesResponse getInvoices(String token) {
+        GetInvoicesResponse getInvoicesResponse;
+        Response<GetInvoicesResponse> response;
+
+        try {
+            response = service.getInvoices(token).execute();
+
+            if(response.code() == 200)
+                getInvoicesResponse = response.body();
+            else
+                getInvoicesResponse = new Gson().fromJson(response.errorBody().string(), GetInvoicesResponse.class);
+
+        } catch (IOException e) {
+            getInvoicesResponse = new GetInvoicesResponse();
+            getInvoicesResponse.errors.add("Error while contacting server. Please try again");
+        }
+
+        return getInvoicesResponse;
     }
 
 }

@@ -76,6 +76,8 @@ public class SarappProvider extends ContentProvider {
     @Nullable
     @Override
     public Cursor query(@NonNull Uri uri, String[] projection, String selection, String[] selectionArgs, String orderBy) {
+        Log.d(LOG_TAG, String.format("query | uri=%s, projection=%s, selection=%s, selectionArgs=%s, orderBy=%s", uri, Arrays.toString(projection), selection, Arrays.toString(selectionArgs), orderBy));
+
         String table = uri.getLastPathSegment();
         return readableDatabase().query(table, projection, selection, selectionArgs, null, null, orderBy);
     }
@@ -97,7 +99,12 @@ public class SarappProvider extends ContentProvider {
         if(rowId == -1)
             return null;
 
+        notifyUriChange(uri);
         return uri.buildUpon().appendPath(String.valueOf(rowId)).build();
+    }
+
+    private void notifyUriChange(@NonNull Uri uri) {
+        getContext().getContentResolver().notifyChange(uri, null);
     }
 
     @Override
@@ -110,7 +117,11 @@ public class SarappProvider extends ContentProvider {
         Log.d(LOG_TAG, String.format("update | uri=%s, values=%s, selection=%s, selectionArgs=%s", uri, values, selection, Arrays.toString(selectionArgs)));
 
         String tableName = uri.getLastPathSegment();
-        return writableDatabase().update(tableName, values, selection, selectionArgs);
+        int updatedRows = writableDatabase().update(tableName, values, selection, selectionArgs);
+        if(updatedRows > 0)
+            notifyUriChange(uri);
+
+        return updatedRows;
     }
 
 

@@ -57,7 +57,7 @@ public abstract class BaseSelection<T extends BaseSelection> {
                 .query(uri(), null, selection(), selectionArgs(), null);
     }
 
-    public CursorLoader asCursorLoader() {
+    public CursorLoader getAsCursorLoader() {
         return new CursorLoader(SarappProvider.context(), uri(), null, selection(), selectionArgs(), null);
     }
 

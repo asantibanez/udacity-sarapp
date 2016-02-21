@@ -18,9 +18,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andressantibanez.sarapp.R;
+import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
+import com.andressantibanez.sarapp.navigation.invoiceslist.InvoicesListActivity;
 
 import java.util.Arrays;
 
@@ -117,7 +119,9 @@ public class LoginFragment extends Fragment {
                 String errors = TextUtils.join("\n", loginResponse.errors);
                 Snackbar.make(mMainContentView, errors, Snackbar.LENGTH_LONG).show();
             } else{
-                Snackbar.make(mMainContentView, "No errors!", Snackbar.LENGTH_LONG).show();
+                Sarapp.instance().setToken(loginResponse.token);
+                startActivity(InvoicesListActivity.launchIntent(getContext()));
+                getActivity().finish();
             }
         }
 

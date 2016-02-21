@@ -8,15 +8,26 @@ import android.content.Context;
  */
 public class Sarapp extends Application {
 
-    private static Context mContext;
+    private static Sarapp instance;
+
+    private String token;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mContext = this;
+        instance = this;
     }
 
-    public static Context context() {
-        return mContext;
+    public static Sarapp instance() {
+        return instance;
     }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
 }

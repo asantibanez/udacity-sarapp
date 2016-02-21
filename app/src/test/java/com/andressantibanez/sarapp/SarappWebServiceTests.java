@@ -20,7 +20,7 @@ public class SarappWebServiceTests {
 
     @Test
     public void validLogin() {
-        LoginRequest loginRequest = new LoginRequest("santibanez.andres@gmail.com", "orellana");
+        LoginRequest loginRequest = new LoginRequest("demo@gmail.com", "demodemo");
         LoginResponse loginResponse = SarappWebService.create().login(loginRequest);
         assertThat(loginResponse.token.length() > 0, is(true));
         assertThat(loginResponse.errors.size() == 0, is(true));
@@ -28,7 +28,7 @@ public class SarappWebServiceTests {
 
     @Test
     public void invalidLogin() {
-        LoginRequest loginRequest = new LoginRequest("invalid@email.com", "hello");
+        LoginRequest loginRequest = new LoginRequest("invalid@gmail.com", "helloworld");
         LoginResponse loginResponse = SarappWebService.create().login(loginRequest);
         assertThat(loginResponse.token.length(), is(0));
         assertThat(loginResponse.errors.size() > 0, is(true));

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/drawer_item_invoices"
+            android:checked="true"
+            android:icon="@drawable/ic_drawer_invoices_24dp"
+            android:title="@string/drawer_item_invoices" />
+
+        <item
+            android:id="@+id/drawer_item_expense_summary"
+            android:checked="true"
+            android:icon="@drawable/ic_drawer_expense_summary_24dp"
+            android:title="@string/drawer_item_expense_summary" />
+
+        <item
+            android:id="@+id/drawer_item_logout"
+            android:checked="true"
+            android:icon="@drawable/ic_drawer_logout_24dp"
+            android:title="@string/drawer_item_logout" />
+
+    </group>
+
+</menu>

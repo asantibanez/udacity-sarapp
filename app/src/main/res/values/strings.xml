@@ -15,4 +15,11 @@
     <string name="menu_use_valid_credentials">Use valid credentials</string>
     <string name="menu_use_invalid_credentials">Use invalid credentials</string>
 
+    <string name="drawer_item_invoices">Invoices</string>
+    <string name="drawer_item_expense_summary">Expense Summary</string>
+    <string name="drawer_item_logout">Logout</string>
+
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
+
 </resources>

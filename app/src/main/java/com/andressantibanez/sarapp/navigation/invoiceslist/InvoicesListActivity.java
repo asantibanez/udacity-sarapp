@@ -55,7 +55,7 @@ public class InvoicesListActivity extends AppCompatActivity implements LoaderMan
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mInvoicesListView.setLayoutManager(layoutManager);
 
-        mAdapter = new InvoicesListAdapter();
+        mAdapter = new InvoicesListAdapter(this);
         mInvoicesListView.setAdapter(mAdapter);
 
         if(savedInstanceState == null) {

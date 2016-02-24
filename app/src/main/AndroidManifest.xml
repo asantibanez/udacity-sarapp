@@ -30,6 +30,7 @@
             android:name=".navigation.invoiceslist.InvoicesSyncService"
             android:exported="false" />
 
+        <activity android:name=".navigation.invoiceview.InvoiceViewActivity"></activity>
     </application>
 
 </manifest>

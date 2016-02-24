@@ -1,5 +1,7 @@
 package com.andressantibanez.sarapp.navigation.invoiceslist;
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.database.invoices.Invoice;
 import com.andressantibanez.sarapp.database.invoices.InvoicesCursor;
+import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -19,10 +22,11 @@ import butterknife.ButterKnife;
  */
 public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapter.ViewHolder> {
 
+    Context mContext;
     InvoicesCursor mInvoicesCursor;
 
-    public InvoicesListAdapter() {
-
+    public InvoicesListAdapter(Context context) {
+        mContext = context;
     }
 
     public void swapCursor(Cursor cursor) {
@@ -35,6 +39,15 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
         notifyDataSetChanged();
     }
 
+    private void onInvoiceClicked(int position) {
+        if(position == RecyclerView.NO_POSITION)
+            return;
+
+        String invoiceId = mInvoicesCursor.invoiceAt(position).id;
+        Intent intent = InvoiceViewActivity.launchIntent(mContext, invoiceId);
+        mContext.startActivity(intent);
+    }
+
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -43,11 +56,21 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Invoice invoice = mInvoicesCursor.invoiceAt(position);
+
+        //Bind data
         holder.supplierName.setText(invoice.supplierName);
         holder.issuingDate.setText(invoice.readableIssuingDate());
         holder.subtotal.setText(invoice.readableSubtotal());
+
+        //Listeners
+        holder.root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onInvoiceClicked(holder.getAdapterPosition());
+            }
+        });
     }
 
     @Override
@@ -56,6 +79,7 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        @Bind(R.id.root) View root;
         @Bind(R.id.supplier_name) TextView supplierName;
         @Bind(R.id.issuing_date) TextView issuingDate;
         @Bind(R.id.subtotal) TextView subtotal;

@@ -31,6 +31,8 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
 
         if(cursor != null)
             mInvoicesCursor = new InvoicesCursor(cursor);
+
+        notifyDataSetChanged();
     }
 
     @Override

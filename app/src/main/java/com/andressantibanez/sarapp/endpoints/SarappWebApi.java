@@ -1,5 +1,6 @@
 package com.andressantibanez.sarapp.endpoints;
 
+import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 
@@ -8,6 +9,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -21,4 +23,7 @@ public interface SarappWebApi {
 
     @GET("api/invoices?page=1&records=2000&all_records=1")
     Call<GetInvoicesResponse> getInvoices(@Query("token") String token);
+
+    @GET("api/invoices/{invoice_id}")
+    Call<GetInvoiceInfoResponse> getInvoiceInfo(@Path("invoice_id") String invoiceId, @Query("token") String token);
 }

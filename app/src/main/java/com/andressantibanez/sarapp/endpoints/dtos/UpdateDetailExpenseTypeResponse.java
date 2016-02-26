@@ -6,12 +6,12 @@ import java.util.List;
 /**
  * Created by asantibanez on 2/25/16.
  */
-public class UpdateInvoiceDetailExpenseTypeResponse {
+public class UpdateDetailExpenseTypeResponse {
 
     public String id;
     public List<String> errors;
 
-    public UpdateInvoiceDetailExpenseTypeResponse() {
+    public UpdateDetailExpenseTypeResponse() {
         errors = new ArrayList<>();
     }
 

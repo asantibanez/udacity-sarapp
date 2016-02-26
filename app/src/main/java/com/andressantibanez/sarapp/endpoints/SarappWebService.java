@@ -1,20 +1,18 @@
 package com.andressantibanez.sarapp.endpoints;
 
+import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
-import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeRequest;
-import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeRequest;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -110,32 +108,55 @@ public class SarappWebService {
         return getInvoiceInfoResponse;
     }
 
-    public UpdateInvoiceDetailExpenseTypeResponse updateInvoiceDetailExpenseType(String token, String invoiceId, String invoiceDetailId, String expenseType) {
-        UpdateInvoiceDetailExpenseTypeResponse updateInvoiceDetailExpenseTypeResponse;
-        Response<UpdateInvoiceDetailExpenseTypeResponse> response;
+    public UpdateDetailExpenseTypeResponse updateDetailExpenseType(String token, String invoiceId, String invoiceDetailId, String expenseType) {
+        UpdateDetailExpenseTypeResponse updateDetailExpenseTypeResponse;
+        Response<UpdateDetailExpenseTypeResponse> response;
 
         try {
             response = service.updateInvoiceDetailExpenseType(
                     invoiceId,
                     invoiceDetailId,
-                    new UpdateInvoiceDetailExpenseTypeRequest(expenseType),
+                    new UpdateDetailExpenseTypeRequest(expenseType),
                     token
             ).execute();
 
             if(response.code() == 200)
-                updateInvoiceDetailExpenseTypeResponse = response.body();
+                updateDetailExpenseTypeResponse = response.body();
             else
-                updateInvoiceDetailExpenseTypeResponse = new Gson().fromJson(
+                updateDetailExpenseTypeResponse = new Gson().fromJson(
                         response.errorBody().string(),
-                        UpdateInvoiceDetailExpenseTypeResponse.class
+                        UpdateDetailExpenseTypeResponse.class
                 );
 
         } catch (IOException e) {
-            updateInvoiceDetailExpenseTypeResponse = new UpdateInvoiceDetailExpenseTypeResponse();
-            updateInvoiceDetailExpenseTypeResponse.errors.add("Error while contacting server. Please try again");
+            updateDetailExpenseTypeResponse = new UpdateDetailExpenseTypeResponse();
+            updateDetailExpenseTypeResponse.errors.add("Error while contacting server. Please try again");
         }
 
-        return updateInvoiceDetailExpenseTypeResponse;
+        return updateDetailExpenseTypeResponse;
+    }
+
+    public ExpenseSummaryResponse getExpenseSummary(String token, int year) {
+        ExpenseSummaryResponse expenseSummaryResponse;
+        Response<ExpenseSummaryResponse> response;
+
+        try {
+            response = service.getExpenseSummary(year, token).execute();
+
+            if(response.code() == 200)
+                expenseSummaryResponse = response.body();
+            else
+                expenseSummaryResponse = new Gson().fromJson(
+                        response.errorBody().string(),
+                        ExpenseSummaryResponse.class
+                );
+
+        } catch (IOException e) {
+            expenseSummaryResponse = new ExpenseSummaryResponse();
+            expenseSummaryResponse.errors.add("Error while contacting server. Please try again");
+        }
+
+        return expenseSummaryResponse;
     }
 
 }

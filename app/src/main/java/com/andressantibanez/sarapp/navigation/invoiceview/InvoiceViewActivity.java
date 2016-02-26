@@ -12,7 +12,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -25,7 +24,7 @@ import com.andressantibanez.sarapp.database.invoices.Invoice;
 import com.andressantibanez.sarapp.database.invoices.InvoicesCursor;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
-import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
 
 import java.util.List;
 
@@ -77,15 +76,15 @@ public class InvoiceViewActivity extends AppCompatActivity {
 
                     @Override
                     protected Boolean doInBackground(Void... voids) {
-                        UpdateInvoiceDetailExpenseTypeResponse updateInvoiceDetailExpenseTypeResponse;
-                        updateInvoiceDetailExpenseTypeResponse = SarappWebService.create().updateInvoiceDetailExpenseType(
+                        UpdateDetailExpenseTypeResponse updateDetailExpenseTypeResponse;
+                        updateDetailExpenseTypeResponse = SarappWebService.create().updateDetailExpenseType(
                                 Sarapp.instance().getToken(),
                                 mAdapter.invoiceDetailAtPosition(position).invoiceId,
                                 mAdapter.invoiceDetailAtPosition(position).id,
                                 newExpenseType
                         );
 
-                        if(!updateInvoiceDetailExpenseTypeResponse.hasErrors()) {
+                        if(!updateDetailExpenseTypeResponse.hasErrors()) {
                             mAdapter.invoiceDetailAtPosition(position).expenseType = newExpenseType;
                             mAdapter.invoiceDetailAtPosition(position).update();
 

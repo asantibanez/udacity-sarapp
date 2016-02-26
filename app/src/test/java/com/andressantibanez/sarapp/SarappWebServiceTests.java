@@ -1,6 +1,7 @@
 package com.andressantibanez.sarapp;
 
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
+import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
@@ -75,6 +76,19 @@ public class SarappWebServiceTests {
                 getInvoiceInfoResponse.details) {
             Assert.assertThat(detail.id, notNullValue());
         }
+    }
+
+    @Test
+    public void getExpenseSummary() {
+        ExpenseSummaryResponse expenseSummary = SarappWebService.create().getExpenseSummary(TestHelper.getValidLoginToken(), 2015);
+        assertThat(expenseSummary, notNullValue());
+        assertThat(expenseSummary.hasErrors(), is(false));
+        assertThat(expenseSummary.expenseTypes, notNullValue());
+        assertThat(expenseSummary.expenseTypes.feeding, notNullValue());
+        assertThat(expenseSummary.expenseTypes.health, notNullValue());
+        assertThat(expenseSummary.expenseTypes.clothing, notNullValue());
+        assertThat(expenseSummary.expenseTypes.dwelling, notNullValue());
+        assertThat(expenseSummary.expenseTypes.education, notNullValue());
     }
 
 }

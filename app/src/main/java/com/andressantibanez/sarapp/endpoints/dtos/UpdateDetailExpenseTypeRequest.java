@@ -5,12 +5,12 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by asantibanez on 2/25/16.
  */
-public class UpdateInvoiceDetailExpenseTypeRequest {
+public class UpdateDetailExpenseTypeRequest {
 
     @SerializedName("expense_type")
     public String expenseType;
 
-    public UpdateInvoiceDetailExpenseTypeRequest(String expenseType) {
+    public UpdateDetailExpenseTypeRequest(String expenseType) {
         this.expenseType = expenseType;
     }
 }

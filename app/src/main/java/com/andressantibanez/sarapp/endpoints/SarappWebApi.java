@@ -1,10 +1,11 @@
 package com.andressantibanez.sarapp.endpoints;
 
+import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
-import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeRequest;
-import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeRequest;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,9 +32,12 @@ public interface SarappWebApi {
     Call<GetInvoiceInfoResponse> getInvoiceInfo(@Path("invoice_id") String invoiceId, @Query("token") String token);
 
     @POST("api/invoices/{invoice_id}/details/{invoice_detail_id}/expense_type")
-    Call<UpdateInvoiceDetailExpenseTypeResponse> updateInvoiceDetailExpenseType(
+    Call<UpdateDetailExpenseTypeResponse> updateInvoiceDetailExpenseType(
             @Path("invoice_id") String invoiceId,
             @Path("invoice_detail_id") String invoiceDetailId,
-            @Body UpdateInvoiceDetailExpenseTypeRequest body,
+            @Body UpdateDetailExpenseTypeRequest body,
             @Query("token") String token);
+
+    @GET("api/summary")
+    Call<ExpenseSummaryResponse> getExpenseSummary(@Query("year") int year, @Query("token") String token);
 }

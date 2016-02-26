@@ -8,6 +8,9 @@ import android.support.v7.widget.Toolbar;
 import android.widget.FrameLayout;
 
 import com.andressantibanez.sarapp.R;
+import com.andressantibanez.sarapp.Sarapp;
+import com.andressantibanez.sarapp.navigation.invoiceslist.InvoicesListActivity;
+import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -29,6 +32,14 @@ public class AuthenticationActivity extends AppCompatActivity {
 
         setSupportActionBar(mToolbar);
 
+        //Check if user already logged in
+        String token = Sarapp.instance().getToken();
+        if(token.length() > 0) {
+            startActivity(InvoicesListActivity.launchIntent(this));
+            finish();
+        }
+
+        //Add login fragment
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(mFragmentContainer.getId(), LoginFragment.newInstance())

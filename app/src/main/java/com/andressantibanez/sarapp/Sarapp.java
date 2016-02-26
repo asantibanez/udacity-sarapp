@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import net.danlew.android.joda.JodaTimeAndroid;
+import net.grandcentrix.tray.TrayAppPreferences;
+import net.grandcentrix.tray.accessor.ItemNotFoundException;
 
 /**
  * Created by asantibanez on 2/20/16.
@@ -12,7 +14,7 @@ public class Sarapp extends Application {
 
     private static Sarapp instance;
 
-    private String token;
+    private TrayAppPreferences mAppPreferences;
 
     @Override
     public void onCreate() {
@@ -20,6 +22,7 @@ public class Sarapp extends Application {
         instance = this;
 
         JodaTimeAndroid.init(this);
+        mAppPreferences = new TrayAppPreferences(this);
     }
 
     public static Sarapp instance() {
@@ -27,11 +30,16 @@ public class Sarapp extends Application {
     }
 
     public void setToken(String token) {
-        this.token = token;
+        mAppPreferences.put("token", token);
     }
 
     public String getToken() {
-        return token;
+        try {
+            return mAppPreferences.getString("token");
+        } catch (ItemNotFoundException e) {
+            //Should never happen
+            return "";
+        }
     }
 
 }

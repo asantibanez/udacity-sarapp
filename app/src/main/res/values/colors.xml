@@ -5,4 +5,12 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="white">#FFFFFF</color>
+
+    <color name="none_color">#EF5350</color>
+    <color name="feeding_color">#FFEE58</color>
+    <color name="health_color">#42A5F5</color>
+    <color name="clothing_color">#FFCA28</color>
+    <color name="dwelling_color">#E1BEE7</color>
+    <color name="education_color">#26A69A</color>
+    <color name="other_color">#BDBDBD</color>
 </resources>

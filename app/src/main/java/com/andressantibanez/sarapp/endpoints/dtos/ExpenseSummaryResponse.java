@@ -27,6 +27,9 @@ public class ExpenseSummaryResponse {
 
     public static class ExpenseTypes {
 
+        @SerializedName("NONE")
+        public ExpenseType none;
+
         @SerializedName("FEEDING")
         public ExpenseType feeding;
 
@@ -41,6 +44,9 @@ public class ExpenseSummaryResponse {
 
         @SerializedName("EDUCATION")
         public ExpenseType education;
+
+        @SerializedName("OTHER")
+        public ExpenseType other;
 
         public static class ExpenseType {
             public String name;

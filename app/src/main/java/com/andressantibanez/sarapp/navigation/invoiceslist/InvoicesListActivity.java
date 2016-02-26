@@ -22,6 +22,7 @@ import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.database.invoices.InvoicesContract;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
 import com.andressantibanez.sarapp.navigation.authentication.AuthenticationActivity;
+import com.andressantibanez.sarapp.navigation.expensesummary.ExpenseSummaryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -71,6 +72,11 @@ public class InvoicesListActivity extends AppCompatActivity implements LoaderMan
             public boolean onNavigationItemSelected(MenuItem item) {
                 item.setChecked(true);
                 mDrawerLayout.closeDrawers();
+
+                //Expense Summary
+                if(item.getItemId() == R.id.drawer_item_expense_summary) {
+                    startActivity(ExpenseSummaryActivity.launchIntent(InvoicesListActivity.this));
+                }
 
                 //Logout
                 if(item.getItemId() == R.id.drawer_item_logout) {

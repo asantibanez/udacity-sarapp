@@ -25,24 +25,34 @@
     <string-array name="expense_types">
         <item>NONE</item>
         <item>FEEDING</item>
-        <item>DWELLING</item>
-        <item>CLOTHING</item>
-        <item>EDUCATION</item>
         <item>HEALTH</item>
+        <item>CLOTHING</item>
+        <item>DWELLING</item>
+        <item>EDUCATION</item>
         <item>OTHER</item>
     </string-array>
 
     <string-array name="expense_types_descriptions">
         <item>-- None --</item>
         <item>Feeding</item>
-        <item>Dwelling</item>
-        <item>Clothing</item>
-        <item>Education</item>
         <item>Health</item>
+        <item>Clothing</item>
+        <item>Dwelling</item>
+        <item>Education</item>
         <item>Other</item>
     </string-array>
 
     <string name="expense_type_changed_successfully">Expense type changed!</string>
     <string name="expense_type_change_error">An error occurred when changing the expense type. Please try again.</string>
+
+    <string name="not_assigned">Not Assigned</string>
+    <string name="feeding">Feeding</string>
+    <string name="health">Health</string>
+    <string name="clothing">Clothing</string>
+    <string name="dwelling">Dwelling</string>
+    <string name="education">Education</string>
+    <string name="other">Other</string>
+
+    <string name="grand_total">Grand Total</string>
 
 </resources>

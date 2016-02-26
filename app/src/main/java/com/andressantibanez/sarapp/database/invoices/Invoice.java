@@ -3,6 +3,7 @@ package com.andressantibanez.sarapp.database.invoices;
 import android.content.ContentValues;
 import android.net.Uri;
 
+import com.andressantibanez.sarapp.Utils;
 import com.andressantibanez.sarapp.database.SarappProvider;
 import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsContract;
 import com.andressantibanez.sarapp.exceptions.CreateRecordException;
@@ -85,15 +86,8 @@ public class Invoice {
         return values;
     }
 
-    private String asMoneyString(double value) {
-        DecimalFormatSymbols decimalFormatSymbols = new DecimalFormatSymbols();
-        decimalFormatSymbols.setDecimalSeparator('.');
-        decimalFormatSymbols.setGroupingSeparator(',');
-        return "$ " + new DecimalFormat("####.##", decimalFormatSymbols).format(value);
-    }
-
     public String readableSubtotal() {
-        return asMoneyString(subtotal);
+        return Utils.asMoneyString(subtotal);
     }
 
     public String readableIssuingDate() {

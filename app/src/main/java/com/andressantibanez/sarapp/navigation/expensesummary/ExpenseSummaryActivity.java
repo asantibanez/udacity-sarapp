@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.Utils;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
+import com.andressantibanez.sarapp.navigation.common.NavDrawerActivity;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
@@ -23,7 +24,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExpenseSummaryActivity extends AppCompatActivity {
+public class ExpenseSummaryActivity extends NavDrawerActivity {
 
     int mYear;
     ExpenseSummaryResponse mExpenseSummary;
@@ -47,6 +48,10 @@ public class ExpenseSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense_summary);
         ButterKnife.bind(this);
+
+        setupToolbar(getString(R.string.expense_summary));
+        setupNavigationView(R.id.drawer_item_expense_summary);
+        setupDrawerLayout();
 
         mYear = DateTime.now().getYear() - 1;
 

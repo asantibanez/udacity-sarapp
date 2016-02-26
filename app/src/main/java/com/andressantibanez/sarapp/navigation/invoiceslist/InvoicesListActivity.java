@@ -22,18 +22,16 @@ import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.database.invoices.InvoicesContract;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
 import com.andressantibanez.sarapp.navigation.authentication.AuthenticationActivity;
+import com.andressantibanez.sarapp.navigation.common.NavDrawerActivity;
 import com.andressantibanez.sarapp.navigation.expensesummary.ExpenseSummaryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class InvoicesListActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class InvoicesListActivity extends NavDrawerActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = InvoicesListActivity.class.getSimpleName();
 
-    @Bind(R.id.toolbar) Toolbar mToolbar;
-    @Bind(R.id.navigation_view) NavigationView mNavigationView;
-    @Bind(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @Bind(R.id.invoices_list) RecyclerView mInvoicesListView;
 
     InvoicesListAdapter mAdapter;
@@ -48,8 +46,8 @@ public class InvoicesListActivity extends AppCompatActivity implements LoaderMan
         setContentView(R.layout.activity_invoices_list);
         ButterKnife.bind(this);
 
-        setupToolbar();
-        setupNavigationView();
+        setupToolbar(getString(R.string.invoices_list));
+        setupNavigationView(R.id.drawer_item_invoices);
         setupDrawerLayout();
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -64,52 +62,6 @@ public class InvoicesListActivity extends AppCompatActivity implements LoaderMan
         }
 
         getSupportLoaderManager().initLoader(1000, null, this);
-    }
-
-    public void setupNavigationView() {
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                item.setChecked(true);
-                mDrawerLayout.closeDrawers();
-
-                //Expense Summary
-                if(item.getItemId() == R.id.drawer_item_expense_summary) {
-                    startActivity(ExpenseSummaryActivity.launchIntent(InvoicesListActivity.this));
-                }
-
-                //Logout
-                if(item.getItemId() == R.id.drawer_item_logout) {
-                    finish();
-                    Sarapp.instance().setToken("");
-                    startActivity(AuthenticationActivity.launchIntent(InvoicesListActivity.this));
-                }
-
-                return true;
-            }
-        });
-    }
-
-    public void setupToolbar() {
-        setSupportActionBar(mToolbar);
-    }
-
-    public void setupDrawerLayout() {
-        ActionBarDrawerToggle actionBarDrawerToggle;
-        actionBarDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open_drawer, R.string.close_drawer){
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-
-        mDrawerLayout.setDrawerListener(actionBarDrawerToggle);
-        actionBarDrawerToggle.syncState();
     }
 
     @Override

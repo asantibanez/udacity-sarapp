@@ -5,6 +5,7 @@ import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
+import com.andressantibanez.sarapp.testing.TestHelper;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,22 +23,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class SarappWebServiceTests {
 
-    String validEmail = "santibanez.andres@gmail.com";
-    String validPassword = "orellana";
-
-    public String getValidLoginToken() {
-        LoginRequest loginRequest = new LoginRequest(validEmail, validPassword);
-        return SarappWebService.create().login(loginRequest).token;
-    }
-
     @Test
     public void validLoginToken() {
-        assertThat(getValidLoginToken().length() > 0, is(true));
+        assertThat(TestHelper.getValidLoginToken().length() > 0, is(true));
     }
 
     @Test
     public void validLogin() {
-        LoginRequest loginRequest = new LoginRequest(validEmail, validPassword);
+        LoginRequest loginRequest = new LoginRequest(TestHelper.VALID_EMAIL, TestHelper.VALID_PASSWORD);
         LoginResponse loginResponse = SarappWebService.create().login(loginRequest);
         assertThat(loginResponse.token.length() > 0, is(true));
         assertThat(loginResponse.errors.size() == 0, is(true));
@@ -45,7 +38,7 @@ public class SarappWebServiceTests {
 
     @Test
     public void invalidLogin() {
-        LoginRequest loginRequest = new LoginRequest("invalid@gmail.com", "helloworld");
+        LoginRequest loginRequest = new LoginRequest(TestHelper.INVALID_EMAIL, TestHelper.INVALID_PASSWORD);
         LoginResponse loginResponse = SarappWebService.create().login(loginRequest);
         assertThat(loginResponse.token.length(), is(0));
         assertThat(loginResponse.errors.size() > 0, is(true));
@@ -54,7 +47,7 @@ public class SarappWebServiceTests {
     @Test
     public void getInvoices() {
         GetInvoicesResponse getInvoicesResponse =
-                SarappWebService.create().getInvoices(getValidLoginToken());
+                SarappWebService.create().getInvoices(TestHelper.getValidLoginToken());
         assertThat(getInvoicesResponse.invoices.size() >= 0, is(true));
         assertThat(getInvoicesResponse.errors.size() == 0, is(true));
 
@@ -66,11 +59,11 @@ public class SarappWebServiceTests {
     @Test
     public void getInvoiceInfo() {
         GetInvoicesResponse getInvoicesResponse =
-                SarappWebService.create().getInvoices(getValidLoginToken());
+                SarappWebService.create().getInvoices(TestHelper.getValidLoginToken());
 
         GetInvoiceInfoResponse getInvoiceInfoResponse;
         getInvoiceInfoResponse = SarappWebService.create().getInvoiceInfo(
-                getValidLoginToken(),
+                TestHelper.getValidLoginToken(),
                 getInvoicesResponse.invoices.get(0).id
         );
 

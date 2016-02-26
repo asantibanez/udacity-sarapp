@@ -22,4 +22,27 @@
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
 
+    <string-array name="expense_types">
+        <item>NONE</item>
+        <item>FEEDING</item>
+        <item>DWELLING</item>
+        <item>CLOTHING</item>
+        <item>EDUCATION</item>
+        <item>HEALTH</item>
+        <item>OTHER</item>
+    </string-array>
+
+    <string-array name="expense_types_descriptions">
+        <item>-- None --</item>
+        <item>Feeding</item>
+        <item>Dwelling</item>
+        <item>Clothing</item>
+        <item>Education</item>
+        <item>Health</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="expense_type_changed_successfully">Expense type changed!</string>
+    <string name="expense_type_change_error">An error occurred when changing the expense type. Please try again.</string>
+
 </resources>

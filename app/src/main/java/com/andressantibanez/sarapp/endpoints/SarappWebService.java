@@ -4,6 +4,8 @@ import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeRequest;
+import com.andressantibanez.sarapp.endpoints.dtos.UpdateInvoiceDetailExpenseTypeResponse;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -22,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class SarappWebService {
 
-    private static final String API_BASE_URL = "http://52.2.92.14/";
+    private static final String API_BASE_URL = "http://54.164.87.92/";
 
     private SarappWebApi service;
 
@@ -106,6 +108,34 @@ public class SarappWebService {
         }
 
         return getInvoiceInfoResponse;
+    }
+
+    public UpdateInvoiceDetailExpenseTypeResponse updateInvoiceDetailExpenseType(String token, String invoiceId, String invoiceDetailId, String expenseType) {
+        UpdateInvoiceDetailExpenseTypeResponse updateInvoiceDetailExpenseTypeResponse;
+        Response<UpdateInvoiceDetailExpenseTypeResponse> response;
+
+        try {
+            response = service.updateInvoiceDetailExpenseType(
+                    invoiceId,
+                    invoiceDetailId,
+                    new UpdateInvoiceDetailExpenseTypeRequest(expenseType),
+                    token
+            ).execute();
+
+            if(response.code() == 200)
+                updateInvoiceDetailExpenseTypeResponse = response.body();
+            else
+                updateInvoiceDetailExpenseTypeResponse = new Gson().fromJson(
+                        response.errorBody().string(),
+                        UpdateInvoiceDetailExpenseTypeResponse.class
+                );
+
+        } catch (IOException e) {
+            updateInvoiceDetailExpenseTypeResponse = new UpdateInvoiceDetailExpenseTypeResponse();
+            updateInvoiceDetailExpenseTypeResponse.errors.add("Error while contacting server. Please try again");
+        }
+
+        return updateInvoiceDetailExpenseTypeResponse;
     }
 
 }

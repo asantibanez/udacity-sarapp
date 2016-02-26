@@ -25,4 +25,8 @@ public class InvoiceDetailsSelection extends BaseSelection<InvoiceDetailsSelecti
         return addSelection(InvoiceDetailsContract.Columns.ID, EQUALS, id);
     }
 
+    public InvoiceDetailsSelection whereInvoiceIdEquals(String invoiceId) {
+        return addSelection(InvoiceDetailsContract.Columns.INVOICE_ID, EQUALS, invoiceId);
+    }
+
 }

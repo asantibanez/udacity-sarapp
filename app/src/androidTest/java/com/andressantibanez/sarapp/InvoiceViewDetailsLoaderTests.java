@@ -2,9 +2,12 @@ package com.andressantibanez.sarapp;
 
 import android.database.Cursor;
 
+import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsCursor;
 import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewDetailsLoader;
+import com.andressantibanez.sarapp.testing.TestHelper;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 
 /**
@@ -13,10 +16,15 @@ import static org.hamcrest.Matchers.notNullValue;
 public class InvoiceViewDetailsLoaderTests extends SupportLoaderTestCase {
 
     public void testLoader() {
-        Cursor cursor = getLoaderResultSynchronously(new InvoiceViewDetailsLoader(getContext()));
-        assertThat(cursor, notNullValue());
-    }
+        InvoiceViewDetailsLoader loader = new InvoiceViewDetailsLoader(
+                getContext(), TestHelper.getValidLoginToken(), TestHelper.getValidInvoice().id
+        );
 
+        Cursor cursor = getLoaderResultSynchronously(loader);
+        assertThat(cursor, notNullValue());
+
+        assertThat(new InvoiceDetailsCursor(cursor).count() > 0, is(true));
+    }
 
 
 

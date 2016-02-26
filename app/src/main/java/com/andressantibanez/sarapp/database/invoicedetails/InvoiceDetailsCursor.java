@@ -6,6 +6,7 @@ import com.andressantibanez.sarapp.database.common.BaseCursor;
 import com.andressantibanez.sarapp.database.invoices.Invoice;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by asantibanez on 2/20/16.
@@ -30,8 +31,23 @@ public class InvoiceDetailsCursor extends BaseCursor {
         return InvoiceDetail.fromParts(id, invoiceId, productId, productName, quantity, price, discount, subtotal, expenseType);
     }
 
-    public ArrayList<Invoice> all() {
-        return null;
+    public InvoiceDetail invoiceDetailAt(int position) {
+        if(!moveToPosition(position))
+            return null;
+
+        return invoiceDetail();
+    }
+
+    public List<InvoiceDetail> all() {
+        ArrayList<InvoiceDetail> details = new ArrayList<>();
+
+        moveToFirst();
+        while(!isAfterLast()) {
+            details.add(invoiceDetail());
+            moveToNext();
+        }
+
+        return details;
     }
 
     public InvoiceDetail first() {

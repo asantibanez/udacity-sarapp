@@ -45,6 +45,8 @@ public class InvoicesSyncService extends IntentService {
                 e.printStackTrace();
             }
         }
+
+        sendBroadcast(new Intent(InvoicesListActivity.BROADCAST_CHANNEL));
     }
 
 }

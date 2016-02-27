@@ -3,6 +3,7 @@ package com.andressantibanez.sarapp.navigation.invoiceslist;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -21,17 +22,20 @@ import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.database.invoices.InvoicesContract;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
+import com.andressantibanez.sarapp.navigation.addinvoice.AddInvoiceActivity;
 import com.andressantibanez.sarapp.navigation.authentication.AuthenticationActivity;
 import com.andressantibanez.sarapp.navigation.common.NavDrawerActivity;
 import com.andressantibanez.sarapp.navigation.expensesummary.ExpenseSummaryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class InvoicesListActivity extends NavDrawerActivity implements LoaderManager.LoaderCallbacks<Cursor>{
 
     private static final String LOG_TAG = InvoicesListActivity.class.getSimpleName();
 
+    @Bind(R.id.fab) FloatingActionButton mFab;
     @Bind(R.id.invoices_list) RecyclerView mInvoicesListView;
 
     InvoicesListAdapter mAdapter;
@@ -62,6 +66,11 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
         }
 
         getSupportLoaderManager().initLoader(1000, null, this);
+    }
+
+    @OnClick(R.id.fab)
+    public void onFabClicked() {
+        startActivity(AddInvoiceActivity.launchIntent(this));
     }
 
     @Override

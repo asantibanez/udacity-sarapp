@@ -31,7 +31,8 @@
             android:exported="false" />
 
         <activity android:name=".navigation.invoiceview.InvoiceViewActivity" />
-        <activity android:name=".navigation.expensesummary.ExpenseSummaryActivity"></activity>
+        <activity android:name=".navigation.expensesummary.ExpenseSummaryActivity" />
+        <activity android:name=".navigation.addinvoice.AddInvoiceActivity"></activity>
     </application>
 
 </manifest>

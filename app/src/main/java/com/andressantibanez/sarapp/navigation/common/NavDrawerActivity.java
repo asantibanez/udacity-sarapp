@@ -1,5 +1,6 @@
 package com.andressantibanez.sarapp.navigation.common;
 
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -11,6 +12,8 @@ import android.view.View;
 
 import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.Sarapp;
+import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsContract;
+import com.andressantibanez.sarapp.database.invoices.InvoicesContract;
 import com.andressantibanez.sarapp.navigation.authentication.AuthenticationActivity;
 import com.andressantibanez.sarapp.navigation.expensesummary.ExpenseSummaryActivity;
 import com.andressantibanez.sarapp.navigation.invoiceslist.InvoicesListActivity;
@@ -53,7 +56,18 @@ public class NavDrawerActivity extends AppCompatActivity {
 
                         //Logout
                         if(item.getItemId() == R.id.drawer_item_logout) {
+
+                            //Logout and delete all device data
                             Sarapp.instance().setToken("");
+                            new AsyncTask<Void, Void, Void>() {
+                                @Override
+                                protected Void doInBackground(Void... voids) {
+                                    getContentResolver().delete(InvoiceDetailsContract.CONTENT_URI, null, null);
+                                    getContentResolver().delete(InvoicesContract.CONTENT_URI, null, null);
+                                    return null;
+                                }
+                            }.execute();
+
                             startActivity(AuthenticationActivity.launchIntent(NavDrawerActivity.this));
                             overridePendingTransition(R.anim.activity_fade_in, R.anim.activity_fade_out);
                             finish();

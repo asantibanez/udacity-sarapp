@@ -113,8 +113,15 @@ public class SarappProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        return 0;
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
+        Log.d(LOG_TAG, String.format("delete | uri=%s, selection=%s, selectionArgs=%s", uri, selection, Arrays.toString(selectionArgs)));
+
+        String tableName = uri.getLastPathSegment();
+        int deletedRows = writableDatabase().delete(tableName, selection, selectionArgs);
+        if(deletedRows > 0)
+            notifyUriChange(uri);
+
+        return deletedRows;
     }
 
     @Override

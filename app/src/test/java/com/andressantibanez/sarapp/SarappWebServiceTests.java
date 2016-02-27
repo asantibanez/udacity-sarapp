@@ -4,20 +4,16 @@ import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
-import com.andressantibanez.sarapp.endpoints.dtos.InvoiceUploadResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UploadInvoiceFileResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UploadedInvoiceFileToInvoiceResponse;
 import com.andressantibanez.sarapp.testing.TestHelper;
 
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
 import java.net.URL;
-import java.util.HashMap;
-
-import okhttp3.RequestBody;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -100,18 +96,35 @@ public class SarappWebServiceTests {
     }
 
     @Test
-    public void uploadInvoice() {
-        String filePath = getAbsouluteFilePath(this, "res/test_invoice_file.xml");
-        InvoiceUploadResponse invoiceUploadResponse = SarappWebService.create().uploadInvoce(TestHelper.getValidLoginToken(), filePath);
-        Assert.assertThat(invoiceUploadResponse, notNullValue());
-        Assert.assertThat(invoiceUploadResponse.hasErrors(), is(false));
-        Assert.assertThat(invoiceUploadResponse.id.length() > 0, is(true));
+    public void uploadInvoiceFile() {
+        String filePath = TestHelper.getAbsouluteFilePathForTestResource(
+                this, "res/test_invoice_file.xml"
+        );
+
+        UploadInvoiceFileResponse uploadInvoiceFileResponse;
+        uploadInvoiceFileResponse = SarappWebService.create().uploadInvoce(
+                TestHelper.getValidLoginToken(), filePath
+        );
+
+        Assert.assertThat(uploadInvoiceFileResponse, notNullValue());
+        Assert.assertThat(uploadInvoiceFileResponse.hasErrors(), is(false));
+        Assert.assertThat(uploadInvoiceFileResponse.electronicInvoiceId.length() > 0, is(true));
 
     }
 
-    private static String getAbsouluteFilePath(Object obj, String fileName) {
-        ClassLoader classLoader = obj.getClass().getClassLoader();
-        URL resource = classLoader.getResource(fileName);
-        return resource.getPath();
+    @Test
+    public void uploadedInvoiceFileToInvoice() {
+        String electronicInvoiceId = TestHelper.uploadInvoiceFileAndGetId(this);
+        Assert.assertThat(electronicInvoiceId, notNullValue());
+        Assert.assertThat(electronicInvoiceId.length() > 0, is(true));
+
+        UploadedInvoiceFileToInvoiceResponse uploadedInvoiceFileToInvoiceResponse =
+                SarappWebService.create().uploadedInvoiceFileToInvoice(
+                        TestHelper.getValidLoginToken(), electronicInvoiceId
+                );
+
+        Assert.assertThat(uploadedInvoiceFileToInvoiceResponse, notNullValue());
+        Assert.assertThat(uploadedInvoiceFileToInvoiceResponse.hasErrors(), is(true));
     }
+
 }

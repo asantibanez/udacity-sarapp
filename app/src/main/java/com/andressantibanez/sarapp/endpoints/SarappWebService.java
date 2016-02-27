@@ -3,17 +3,20 @@ package com.andressantibanez.sarapp.endpoints;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
-import com.andressantibanez.sarapp.endpoints.dtos.InvoiceUploadResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UploadInvoiceFileResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.UploadedInvoiceFileToInvoiceResponse;
 import com.google.gson.Gson;
 
 import org.joda.time.DateTime;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -80,7 +83,7 @@ public class SarappWebService {
         GetInvoicesResponse getInvoicesResponse;
         Response<GetInvoicesResponse> response;
 
-        int year = DateTime.now().getYear();
+        int year = Calendar.getInstance().get(Calendar.YEAR);
 
         try {
             response = service.getInvoices(token, year).execute();
@@ -169,29 +172,52 @@ public class SarappWebService {
         return expenseSummaryResponse;
     }
 
-    public InvoiceUploadResponse uploadInvoce(String token, String filePath) {
+    public UploadInvoiceFileResponse uploadInvoce(String token, String filePath) {
         RequestBody xmlFileRequestBody = RequestBody.create(MediaType.parse("text/xml"), new File(filePath));
         Map<String, RequestBody> files = new HashMap<>();
         files.put("files[0]\"; filename=\"invoice.xml\" ", xmlFileRequestBody);
 
-        InvoiceUploadResponse invoiceUploadResponse;
-        Response<InvoiceUploadResponse> response;
+        UploadInvoiceFileResponse uploadInvoiceFileResponse;
+        Response<UploadInvoiceFileResponse> response;
         try {
-            response = service.uploadInvoice(files, token).execute();
+            response = service.uploadInvoiceFile(files, token).execute();
 
             if(response.code() == 200)
-                invoiceUploadResponse = response.body();
+                uploadInvoiceFileResponse = response.body();
             else
-                invoiceUploadResponse = new Gson().fromJson(
+                uploadInvoiceFileResponse = new Gson().fromJson(
                         response.errorBody().string(),
-                        InvoiceUploadResponse.class
+                        UploadInvoiceFileResponse.class
                 );
         } catch (IOException e) {
-            invoiceUploadResponse = new InvoiceUploadResponse();
-            invoiceUploadResponse.errors.add("Error while contacting server. Please try again");
+            uploadInvoiceFileResponse = new UploadInvoiceFileResponse();
+            uploadInvoiceFileResponse.errors.add("Error while contacting server. Please try again");
         }
 
-        return invoiceUploadResponse;
+        return uploadInvoiceFileResponse;
+    }
+
+    public UploadedInvoiceFileToInvoiceResponse uploadedInvoiceFileToInvoice(String token, String electronicInvoiceId) {
+        UploadedInvoiceFileToInvoiceResponse uploadedInvoiceFileToInvoiceResponse;
+        Response<UploadedInvoiceFileToInvoiceResponse> response;
+
+        try {
+            response = service.uploadedInvoiceFileToInvoice(electronicInvoiceId, token).execute();
+
+            if(response.code() == 200)
+                uploadedInvoiceFileToInvoiceResponse = response.body();
+            else
+                uploadedInvoiceFileToInvoiceResponse = new Gson().fromJson(
+                        response.errorBody().string(),
+                        UploadedInvoiceFileToInvoiceResponse.class
+                );
+
+        } catch (IOException e) {
+            uploadedInvoiceFileToInvoiceResponse = new UploadedInvoiceFileToInvoiceResponse();
+            uploadedInvoiceFileToInvoiceResponse.errors.add("Error while contacting server. Please try again");
+        }
+
+        return uploadedInvoiceFileToInvoiceResponse;
     }
 
 }

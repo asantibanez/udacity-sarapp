@@ -3,16 +3,25 @@ package com.andressantibanez.sarapp.endpoints;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.InvoiceUploadResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
 
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.RequestBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -40,4 +49,8 @@ public interface SarappWebApi {
 
     @GET("api/summary")
     Call<ExpenseSummaryResponse> getExpenseSummary(@Query("year") int year, @Query("token") String token);
+
+    @Multipart
+    @POST("api/electronic-invoices/upload")
+    Call<InvoiceUploadResponse> uploadInvoice(@PartMap() Map<String, RequestBody> files, @Query("token") String token);
 }

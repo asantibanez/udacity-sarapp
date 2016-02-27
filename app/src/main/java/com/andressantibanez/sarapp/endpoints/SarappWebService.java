@@ -3,6 +3,7 @@ package com.andressantibanez.sarapp.endpoints;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.InvoiceUploadResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeRequest;
@@ -11,9 +12,14 @@ import com.google.gson.Gson;
 
 import org.joda.time.DateTime;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -161,6 +167,31 @@ public class SarappWebService {
         }
 
         return expenseSummaryResponse;
+    }
+
+    public InvoiceUploadResponse uploadInvoce(String token, String filePath) {
+        RequestBody xmlFileRequestBody = RequestBody.create(MediaType.parse("text/xml"), new File(filePath));
+        Map<String, RequestBody> files = new HashMap<>();
+        files.put("files[0]\"; filename=\"invoice.xml\" ", xmlFileRequestBody);
+
+        InvoiceUploadResponse invoiceUploadResponse;
+        Response<InvoiceUploadResponse> response;
+        try {
+            response = service.uploadInvoice(files, token).execute();
+
+            if(response.code() == 200)
+                invoiceUploadResponse = response.body();
+            else
+                invoiceUploadResponse = new Gson().fromJson(
+                        response.errorBody().string(),
+                        InvoiceUploadResponse.class
+                );
+        } catch (IOException e) {
+            invoiceUploadResponse = new InvoiceUploadResponse();
+            invoiceUploadResponse.errors.add("Error while contacting server. Please try again");
+        }
+
+        return invoiceUploadResponse;
     }
 
 }

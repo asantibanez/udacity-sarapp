@@ -172,7 +172,9 @@ public class SarappWebService {
         return expenseSummaryResponse;
     }
 
-    public UploadInvoiceFileResponse uploadInvoce(String token, String filePath) {
+    public UploadInvoiceFileResponse uploadInvoceFile(String token, String filePath) {
+        System.out.println("File path to upload: " + filePath);
+
         RequestBody xmlFileRequestBody = RequestBody.create(MediaType.parse("text/xml"), new File(filePath));
         Map<String, RequestBody> files = new HashMap<>();
         files.put("files[0]\"; filename=\"invoice.xml\" ", xmlFileRequestBody);
@@ -190,6 +192,8 @@ public class SarappWebService {
                         UploadInvoiceFileResponse.class
                 );
         } catch (IOException e) {
+            e.printStackTrace();
+
             uploadInvoiceFileResponse = new UploadInvoiceFileResponse();
             uploadInvoiceFileResponse.errors.add("Error while contacting server. Please try again");
         }

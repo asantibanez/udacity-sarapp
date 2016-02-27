@@ -36,7 +36,7 @@ public class TestHelper {
         );
 
         UploadInvoiceFileResponse uploadInvoiceFileResponse;
-        uploadInvoiceFileResponse = SarappWebService.create().uploadInvoce(
+        uploadInvoiceFileResponse = SarappWebService.create().uploadInvoceFile(
                 TestHelper.getValidLoginToken(), filePath
         );
 

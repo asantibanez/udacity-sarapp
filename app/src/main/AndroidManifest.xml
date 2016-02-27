@@ -27,13 +27,39 @@
         </activity>
         <activity android:name=".navigation.invoiceslist.InvoicesListActivity" />
 
-        <service
-            android:name=".navigation.invoiceslist.InvoicesSyncService"
-            android:exported="false" />
+        <service android:name=".navigation.invoiceslist.InvoicesSyncService" />
 
         <activity android:name=".navigation.invoiceview.InvoiceViewActivity" />
         <activity android:name=".navigation.expensesummary.ExpenseSummaryActivity" />
-        <activity android:name=".navigation.addinvoice.AddInvoiceActivity"/>
+
+        <activity android:name=".navigation.addinvoice.AddInvoiceActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:host="*"/>
+                <data android:pathPattern=".*\\.xml"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http"/>
+                <data android:mimeType="text/xml"/>
+                <data android:mimeType="application/xml"/>
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="file"/>
+                <data android:mimeType="text/xml"/>
+                <data android:mimeType="application/xml"/>
+            </intent-filter>
+        </activity>
 
         <activity
             android:name="com.nononsenseapps.filepicker.FilePickerActivity"
@@ -44,6 +70,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <service android:name=".navigation.addinvoice.AddInvoiceIntentService" />
 
     </application>
 

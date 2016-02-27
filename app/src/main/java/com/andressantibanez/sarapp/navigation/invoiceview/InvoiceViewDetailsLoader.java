@@ -8,6 +8,7 @@ import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetail;
 import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsCursor;
 import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsSelection;
+import com.andressantibanez.sarapp.database.invoices.Invoice;
 import com.andressantibanez.sarapp.endpoints.SarappWebApi;
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
@@ -55,6 +56,23 @@ public class InvoiceViewDetailsLoader extends AsyncTaskLoader<List<InvoiceDetail
         if(getInvoiceInfoResponse.hasErrors())
             return null;
 
+        //Sync invoice
+        try {
+            Invoice.fromParts(
+                    getInvoiceInfoResponse.id,
+                    getInvoiceInfoResponse.supplierName,
+                    getInvoiceInfoResponse.supplierTaxpayerId,
+                    getInvoiceInfoResponse.issuingDate(),
+                    getInvoiceInfoResponse.subtotal,
+                    getInvoiceInfoResponse.tax,
+                    getInvoiceInfoResponse.total
+            ).create();
+        } catch (CreateRecordException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        //Sync details
         for (GetInvoiceInfoResponse.InvoiceDetail detailData : getInvoiceInfoResponse.details) {
             try {
                 InvoiceDetail.fromParts(

@@ -128,6 +128,9 @@ public class InvoiceViewActivity extends AppCompatActivity {
             @Override
             public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
                 Invoice invoice = new InvoicesCursor(data).first();
+                if(invoice == null)
+                    return;
+
                 displayInvoiceInfo(invoice);
             }
 

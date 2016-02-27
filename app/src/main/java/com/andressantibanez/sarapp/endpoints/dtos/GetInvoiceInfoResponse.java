@@ -2,7 +2,10 @@ package com.andressantibanez.sarapp.endpoints.dtos;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +24,10 @@ public class GetInvoiceInfoResponse {
     @SerializedName("supplier_taxpayer_id")
     public String supplierTaxpayerId;
 
+    public double subtotal;
+    public double tax;
+    public double total;
+
     public List<InvoiceDetail> details;
 
     public List<String> errors;
@@ -28,6 +35,15 @@ public class GetInvoiceInfoResponse {
     public GetInvoiceInfoResponse() {
         details = new ArrayList<>();
         errors = new ArrayList<>();
+    }
+
+    public Date issuingDate() {
+        try {
+            return new SimpleDateFormat("yyyy-MM-dd").parse(issuingDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return new Date();
+        }
     }
 
     public boolean hasDetails() {

@@ -9,6 +9,8 @@ import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeRequest
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
 import com.google.gson.Gson;
 
+import org.joda.time.DateTime;
+
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
@@ -72,8 +74,10 @@ public class SarappWebService {
         GetInvoicesResponse getInvoicesResponse;
         Response<GetInvoicesResponse> response;
 
+        int year = DateTime.now().getYear();
+
         try {
-            response = service.getInvoices(token).execute();
+            response = service.getInvoices(token, year).execute();
 
             if(response.code() == 200)
                 getInvoicesResponse = response.body();

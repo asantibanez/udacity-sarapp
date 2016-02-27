@@ -26,7 +26,7 @@ public interface SarappWebApi {
     Call<LoginResponse> login(@Field("email") String email, @Field("password") String password);
 
     @GET("api/invoices?page=1&records=2000&all_records=1")
-    Call<GetInvoicesResponse> getInvoices(@Query("token") String token);
+    Call<GetInvoicesResponse> getInvoices(@Query("token") String token, @Query("year") int year);
 
     @GET("api/invoices/{invoice_id}")
     Call<GetInvoiceInfoResponse> getInvoiceInfo(@Path("invoice_id") String invoiceId, @Query("token") String token);

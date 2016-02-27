@@ -53,7 +53,7 @@ public class ExpenseSummaryActivity extends NavDrawerActivity {
         setupNavigationView(R.id.drawer_item_expense_summary);
         setupDrawerLayout();
 
-        mYear = DateTime.now().getYear() - 1;
+        mYear = DateTime.now().getYear();
 
         //Get summary on start
         getSupportLoaderManager().initLoader(1000, null, new LoaderManager.LoaderCallbacks<ExpenseSummaryResponse>() {

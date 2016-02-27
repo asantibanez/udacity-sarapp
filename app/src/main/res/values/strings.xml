@@ -3,6 +3,7 @@
 
     <string name="invoices_list">Invoices</string>
     <string name="expense_summary">Expense Summary</string>
+    <string name="add_invoice">Add Invoice</string>
 
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
@@ -57,5 +58,11 @@
     <string name="other">Other</string>
 
     <string name="grand_total">Grand Total</string>
+
+    <string name="select_invoice_file">Select Invoice File</string>
+    <string name="attach_invoice_instructions">
+        Choose an Invoice from your device that was previously delivered by your Supplier after the time of purchase.
+        Commonly, you will find this Invoice file in your email with and XML extension.
+    </string>
 
 </resources>

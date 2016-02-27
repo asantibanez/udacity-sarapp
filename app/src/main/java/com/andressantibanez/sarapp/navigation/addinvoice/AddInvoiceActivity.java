@@ -9,8 +9,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewActivity;
@@ -31,6 +34,8 @@ public class AddInvoiceActivity extends AppCompatActivity {
     BroadcastReceiver mBroadcastReceiver;
 
     @Bind(R.id.root) View mRootView;
+    @Bind(R.id.toolbar) Toolbar mToolbarView;
+    @Bind(R.id.progress_bar) ProgressBar mProgressBar;
     @Bind(R.id.attach_invoice_button) Button mAttachInvoiceButton;
 
     public static Intent launchIntent(Context context) {
@@ -42,6 +47,10 @@ public class AddInvoiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_invoice);
         ButterKnife.bind(this);
+
+        setSupportActionBar(mToolbarView);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(R.string.add_invoice);
 
         registerForUpdates();
 
@@ -63,6 +72,16 @@ public class AddInvoiceActivity extends AppCompatActivity {
         unregisterForUpdates();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     public void registerForUpdates() {
         IntentFilter filters = new IntentFilter(BROADCAST_CHANNEL);
 
@@ -80,6 +99,9 @@ public class AddInvoiceActivity extends AppCompatActivity {
                     startActivity(InvoiceViewActivity.launchIntent(AddInvoiceActivity.this, invoiceId));
                     finish();
                 }
+
+                mProgressBar.setVisibility(View.GONE);
+                mProgressBar.setVisibility(View.VISIBLE);
             }
         };
 
@@ -98,6 +120,9 @@ public class AddInvoiceActivity extends AppCompatActivity {
     }
 
     public void addInvoice() {
+        mProgressBar.setVisibility(View.VISIBLE);
+        mAttachInvoiceButton.setEnabled(false);
+
         AddInvoiceIntentService.execute(this, BROADCAST_CHANNEL, mCurrentFilePath);
     }
 

@@ -3,6 +3,7 @@ package com.andressantibanez.sarapp.endpoints;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.RegistrationResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UploadedInvoiceFileToInvoiceResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UploadInvoiceFileResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
@@ -31,6 +32,15 @@ public interface SarappWebApi {
     @FormUrlEncoded
     @POST("api/users/authenticate")
     Call<LoginResponse> login(@Field("email") String email, @Field("password") String password);
+
+    @FormUrlEncoded
+    @POST("api/users/register")
+    Call<RegistrationResponse> register(
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("first_name") String firstName,
+            @Field("last_name") String lastName
+    );
 
     @GET("api/invoices?page=1&records=2000&all_records=1")
     Call<GetInvoicesResponse> getInvoices(@Query("token") String token, @Query("year") int year);

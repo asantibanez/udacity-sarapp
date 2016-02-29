@@ -3,6 +3,8 @@ package com.andressantibanez.sarapp.endpoints;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.RegistrationRequest;
+import com.andressantibanez.sarapp.endpoints.dtos.RegistrationResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UploadInvoiceFileResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
@@ -54,6 +56,31 @@ public class SarappWebService {
 
     public static SarappWebService create() {
         return new SarappWebService();
+    }
+
+    public RegistrationResponse register(RegistrationRequest registrationRequest) {
+        RegistrationResponse registrationResponse;
+        Response<RegistrationResponse> response;
+
+        String email = registrationRequest.email;
+        String password = registrationRequest.password;
+        String firstName = registrationRequest.firstName;
+        String lastName = registrationRequest.lastName;
+
+        try {
+            response = service.register(email, password, firstName, lastName).execute();
+
+            if(response.code() == 200)
+                registrationResponse = response.body();
+            else
+                registrationResponse = new Gson().fromJson(response.errorBody().string(), RegistrationResponse.class);
+
+        } catch (IOException e) {
+            registrationResponse = new RegistrationResponse();
+            registrationResponse.errors.add("Error while contacting server. Please try again");
+        }
+
+        return registrationResponse;
     }
 
     public LoginResponse login(LoginRequest loginRequest) {

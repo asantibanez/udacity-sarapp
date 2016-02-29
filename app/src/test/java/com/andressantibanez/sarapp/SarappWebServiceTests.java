@@ -4,6 +4,8 @@ import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.ExpenseSummaryResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoiceInfoResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
+import com.andressantibanez.sarapp.endpoints.dtos.RegistrationRequest;
+import com.andressantibanez.sarapp.endpoints.dtos.RegistrationResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UploadInvoiceFileResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginRequest;
 import com.andressantibanez.sarapp.endpoints.dtos.LoginResponse;
@@ -29,6 +31,22 @@ public class SarappWebServiceTests {
     @Test
     public void validLoginToken() {
         assertThat(TestHelper.getValidLoginToken().length() > 0, is(true));
+    }
+
+    @Test
+    public void validRegistration() {
+        RegistrationRequest registrationRequest = new RegistrationRequest("john.doe@sarapp.com", "ilovejanedoe", "John Doe", "Doe");
+        RegistrationResponse registrationResponse = SarappWebService.create().register(registrationRequest);
+        assertThat(registrationResponse.token.length() > 0,  is(true));
+        assertThat(registrationResponse.hasErrors(), is(false));
+    }
+
+    @Test
+    public void invalidRegistration() {
+        RegistrationRequest registrationRequest = new RegistrationRequest(TestHelper.VALID_EMAIL, TestHelper.VALID_PASSWORD, "", "");
+        RegistrationResponse registrationResponse = SarappWebService.create().register(registrationRequest);
+        assertThat(registrationResponse.token.length(), is(0));
+        assertThat(registrationResponse.errors.size() > 0, is(true));
     }
 
     @Test

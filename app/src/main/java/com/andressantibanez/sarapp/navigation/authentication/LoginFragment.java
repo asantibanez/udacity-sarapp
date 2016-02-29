@@ -112,8 +112,6 @@ public class LoginFragment extends Fragment {
 
         @Override
         protected void onPostExecute(LoginResponse loginResponse) {
-            super.onPostExecute(loginResponse);
-
             mProgressBar.setVisibility(View.GONE);
 
             if(loginResponse.hasErrors()) {

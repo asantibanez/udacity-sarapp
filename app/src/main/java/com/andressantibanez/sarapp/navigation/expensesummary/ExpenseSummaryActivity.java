@@ -62,6 +62,8 @@ public class ExpenseSummaryActivity extends NavDrawerActivity implements LoaderM
 
         //Get summary on start
         showLoadingIndicator(true);
+        mExpenseSummaryContainer.setVisibility(View.GONE);
+        showErrorContainer(false, false);
         getSupportLoaderManager().initLoader(1000, null, this);
     }
 

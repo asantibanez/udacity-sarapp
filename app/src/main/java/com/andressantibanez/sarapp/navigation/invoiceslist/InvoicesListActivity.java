@@ -169,9 +169,9 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
         InvoicesListAdapter.ViewHolder viewHolder = (InvoicesListAdapter.ViewHolder)
                 mInvoicesListView.findViewHolderForAdapterPosition(position);
 
-        Pair<View, String> p1 = Pair.create((View) viewHolder.supplierName, "master_to_detail");
-        Pair<View, String> p2 = Pair.create((View) viewHolder.issuingDate, "master_to_detail");
-        Pair<View, String> p3 = Pair.create((View) viewHolder.subtotal, "master_to_detail");
+        Pair<View, String> p1 = Pair.create((View) viewHolder.supplierName, "master_to_detail_supplier_name");
+        Pair<View, String> p2 = Pair.create((View) viewHolder.issuingDate, "master_to_detail_issuing_date");
+        Pair<View, String> p3 = Pair.create((View) viewHolder.subtotal, "master_to_detail_subtotal");
 
         Intent intent = InvoiceViewActivity.launchIntent(this, invoiceId);
         Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2, p3).toBundle();

@@ -17,7 +17,7 @@
         android:maxLength="25"
         android:ellipsize="end"
         android:textStyle="bold"
-        android:transitionName="master_to_detail"
+        android:transitionName="master_to_detail_supplier_name"
         tools:text="Burger King Very Long Text for Testing" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="14sp"
-        android:transitionName="master_to_detail"
+        android:transitionName="master_to_detail_issuing_date"
         tools:text="Feb 23, 2015"/>
 
     <TextView
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:textSize="18sp"
-        android:transitionName="master_to_detail"
+        android:transitionName="master_to_detail_subtotal"
         tools:text="$ 40.50"/>
 
 </RelativeLayout>

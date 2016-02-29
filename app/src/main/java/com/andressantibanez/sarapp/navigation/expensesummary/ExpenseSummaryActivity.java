@@ -6,6 +6,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.andressantibanez.sarapp.R;
@@ -24,11 +25,12 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class ExpenseSummaryActivity extends NavDrawerActivity {
+public class ExpenseSummaryActivity extends NavDrawerActivity implements LoaderManager.LoaderCallbacks<ExpenseSummaryResponse> {
 
     int mYear;
     ExpenseSummaryResponse mExpenseSummary;
 
+    @Bind(R.id.expense_summary_container) View mExpenseSummaryContainer;
     @Bind(R.id.chart) PieChart mPieChart;
     @Bind(R.id.not_assigned_amount) TextView mNotAssignedAmountView;
     @Bind(R.id.feeding_amount) TextView mFeedingAmountView;
@@ -55,32 +57,40 @@ public class ExpenseSummaryActivity extends NavDrawerActivity {
 
         mYear = DateTime.now().getYear();
 
+        //Setup error container
+        setupErrorContainer();
+
         //Get summary on start
-        getSupportLoaderManager().initLoader(1000, null, new LoaderManager.LoaderCallbacks<ExpenseSummaryResponse>() {
-            @Override
-            public Loader<ExpenseSummaryResponse> onCreateLoader(int id, Bundle args) {
-                return new ExpenseSummaryLoader(ExpenseSummaryActivity.this, mYear);
-            }
+        showLoadingIndicator(true);
+        getSupportLoaderManager().initLoader(1000, null, this);
+    }
 
+    public void setupErrorContainer() {
+        mErrorMessageView.setText(R.string.error_getting_summary_try_again);
+        mErrorActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onLoadFinished(Loader<ExpenseSummaryResponse> loader, ExpenseSummaryResponse data) {
-                displayData(data);
-            }
+            public void onClick(View view) {
+                showLoadingIndicator(true);
+                showErrorContainer(false, false);
 
-            @Override
-            public void onLoaderReset(Loader<ExpenseSummaryResponse> loader) {
-
+                getSupportLoaderManager().restartLoader(1000, null, ExpenseSummaryActivity.this);
             }
         });
     }
 
     public void displayData(ExpenseSummaryResponse expenseSummary) {
-        mExpenseSummary = expenseSummary;
+        showLoadingIndicator(false);
+        mExpenseSummaryContainer.setVisibility(View.GONE);
+        showErrorContainer(false, false);
 
+
+        mExpenseSummary = expenseSummary;
         if(mExpenseSummary.hasErrors()) {
-            //TODO: handle no data gracefully
+            showErrorContainer(true, true);
             return;
         }
+
+        mExpenseSummaryContainer.setVisibility(View.VISIBLE);
 
         //Setup totals
         mNotAssignedAmountView.setText(Utils.asMoneyString(mExpenseSummary.expenseTypes.none.total));
@@ -157,5 +167,20 @@ public class ExpenseSummaryActivity extends NavDrawerActivity {
         mPieChart.invalidate();
 
         mPieChart.animateXY(1500, 1500);
+    }
+
+    @Override
+    public Loader<ExpenseSummaryResponse> onCreateLoader(int id, Bundle args) {
+        return new ExpenseSummaryLoader(ExpenseSummaryActivity.this, mYear);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ExpenseSummaryResponse> loader, ExpenseSummaryResponse data) {
+        displayData(data);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ExpenseSummaryResponse> loader) {
+
     }
 }

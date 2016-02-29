@@ -65,4 +65,9 @@
         Commonly, you will find this Invoice file in your email with and XML extension.
     </string>
 
+    <string name="retry">Retry</string>
+    <string name="refresh">Refresh</string>
+    <string name="invoices_list_no_data">No invoices found. You can add invoices to your account by pressing the "+" button.</string>
+    <string name="error_getting_summary_try_again">Error retrieving summary.\nPlease try again.</string>
+
 </resources>

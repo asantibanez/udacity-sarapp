@@ -27,7 +27,7 @@
         </activity>
         <activity android:name=".navigation.invoiceslist.InvoicesListActivity" />
 
-        <service android:name=".navigation.invoiceslist.InvoicesSyncService" />
+        <service android:name=".navigation.invoiceslist.InvoicesSyncIntentService" />
 
         <activity android:name=".navigation.invoiceview.InvoiceViewActivity" />
         <activity android:name=".navigation.expensesummary.ExpenseSummaryActivity" />

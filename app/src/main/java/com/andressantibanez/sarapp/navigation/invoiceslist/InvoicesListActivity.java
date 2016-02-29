@@ -7,29 +7,19 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.andressantibanez.sarapp.R;
-import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.database.invoices.InvoicesContract;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
 import com.andressantibanez.sarapp.navigation.addinvoice.AddInvoiceActivity;
-import com.andressantibanez.sarapp.navigation.authentication.AuthenticationActivity;
 import com.andressantibanez.sarapp.navigation.common.NavDrawerActivity;
-import com.andressantibanez.sarapp.navigation.expensesummary.ExpenseSummaryActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -72,24 +62,19 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
         mAdapter = new InvoicesListAdapter(this);
         mInvoicesListView.setAdapter(mAdapter);
 
+        //Setup errors container
+        setupErrorContainer();
+
         //Execute sync on first run
         if(savedInstanceState == null) {
-            InvoicesSyncService.execute(this);
-
-            //Run refresh animation a third of second later
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mInvoicesListContainerView.setRefreshing(true);
-                }
-            }, 300);
+            syncInvoices();
         }
 
         //Setup swipe refresh listener
         mInvoicesListContainerView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                InvoicesSyncService.execute(InvoicesListActivity.this);
+                syncInvoices();
             }
         });
 
@@ -101,6 +86,26 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
     protected void onDestroy() {
         super.onDestroy();
         unregisterForUpdates();
+    }
+
+    public void setupErrorContainer() {
+        mErrorMessageView.setText(R.string.invoices_list_no_data);
+        mErrorActionButton.setText(R.string.refresh);
+
+        mErrorActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                syncInvoices();
+            }
+        });
+    }
+
+    public void syncInvoices() {
+        showLoadingIndicator(true);
+        showErrorContainer(false, false);
+
+        InvoicesSyncIntentService.execute(this);
+        mInvoicesListContainerView.setRefreshing(true);
     }
 
     public void registerForUpdates() {
@@ -135,7 +140,17 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        Log.d(LOG_TAG, "Records: " + data.getCount());
+        showLoadingIndicator(false);
+
+        mInvoicesListView.setVisibility(View.GONE);
+        mErrorContainerView.setVisibility(View.GONE);
+
+        if (data.getCount() == 0) {
+            showErrorContainer(true, true);
+            return;
+        }
+
+        mInvoicesListView.setVisibility(View.VISIBLE);
         mAdapter.swapCursor(data);
     }
 

@@ -20,6 +20,8 @@
             android:layout_height="match_parent" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/include_loading_error_container" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
         android:src="@drawable/ic_add_white_24dp"

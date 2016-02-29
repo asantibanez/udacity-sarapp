@@ -9,6 +9,7 @@
     <include layout="@layout/include_appbar_toolbar" />
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/expense_summary_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="?actionBarSize">
@@ -281,5 +282,7 @@
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+
+    <include layout="@layout/include_loading_error_container" />
 
 </android.support.design.widget.CoordinatorLayout>

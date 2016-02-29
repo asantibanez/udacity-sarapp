@@ -10,14 +10,14 @@ import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.GetInvoicesResponse;
 import com.andressantibanez.sarapp.exceptions.CreateRecordException;
 
-public class InvoicesSyncService extends IntentService {
+public class InvoicesSyncIntentService extends IntentService {
 
-    public InvoicesSyncService() {
-        super("InvoicesSyncService");
+    public InvoicesSyncIntentService() {
+        super("InvoicesSyncIntentService");
     }
 
     public static void execute(Context context) {
-        Intent intent = new Intent(context, InvoicesSyncService.class);
+        Intent intent = new Intent(context, InvoicesSyncIntentService.class);
         context.startService(intent);
     }
 

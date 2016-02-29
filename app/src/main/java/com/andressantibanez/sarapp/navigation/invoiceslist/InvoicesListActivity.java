@@ -1,5 +1,6 @@
 package com.andressantibanez.sarapp.navigation.invoiceslist;
 
+import android.app.ActivityOptions;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -7,25 +8,29 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.database.invoices.InvoicesContract;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
 import com.andressantibanez.sarapp.navigation.addinvoice.AddInvoiceActivity;
 import com.andressantibanez.sarapp.navigation.common.NavDrawerActivity;
+import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewActivity;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class InvoicesListActivity extends NavDrawerActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class InvoicesListActivity extends NavDrawerActivity implements LoaderManager.LoaderCallbacks<Cursor>,InvoicesListAdapter.InvoicesListAdapterCallbacks {
 
     private static final String LOG_TAG = InvoicesListActivity.class.getSimpleName();
     public static final String BROADCAST_CHANNEL = "com.andressantibanez.sarapp.ACTION_SYNC";
@@ -59,7 +64,7 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         mInvoicesListView.setLayoutManager(layoutManager);
 
-        mAdapter = new InvoicesListAdapter(this);
+        mAdapter = new InvoicesListAdapter(this, this);
         mInvoicesListView.setAdapter(mAdapter);
 
         //Setup errors container
@@ -157,5 +162,19 @@ public class InvoicesListActivity extends NavDrawerActivity implements LoaderMan
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
         mAdapter.swapCursor(null);
+    }
+
+    @Override
+    public void onInvoiceClicked(int position, String invoiceId) {
+        InvoicesListAdapter.ViewHolder viewHolder = (InvoicesListAdapter.ViewHolder)
+                mInvoicesListView.findViewHolderForAdapterPosition(position);
+
+        Pair<View, String> p1 = Pair.create((View) viewHolder.supplierName, "master_to_detail");
+        Pair<View, String> p2 = Pair.create((View) viewHolder.issuingDate, "master_to_detail");
+        Pair<View, String> p3 = Pair.create((View) viewHolder.subtotal, "master_to_detail");
+
+        Intent intent = InvoiceViewActivity.launchIntent(this, invoiceId);
+        Bundle bundle = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2, p3).toBundle();
+        startActivity(intent, bundle);
     }
 }

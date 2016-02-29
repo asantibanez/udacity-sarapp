@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:textColor="@color/white"
+                    android:transitionName="master_to_detail"
                     app:layout_scrollFlags="scroll"
                     tools:text="Supplier Name"/>
 
@@ -50,6 +51,7 @@
                     android:textSize="18sp"
                     android:textColor="@color/white"
                     app:layout_scrollFlags="scroll"
+                    android:transitionName="master_to_detail"
                     tools:text="Feb 23, 2016"/>
 
                 <TextView
@@ -61,6 +63,7 @@
                     android:textSize="40sp"
                     android:textColor="@color/white"
                     app:layout_scrollFlags="scroll"
+                    android:transitionName="master_to_detail"
                     tools:text="$10.50" />
             </LinearLayout>
 

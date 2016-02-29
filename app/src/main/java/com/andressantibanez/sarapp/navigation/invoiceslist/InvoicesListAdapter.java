@@ -1,8 +1,10 @@
 package com.andressantibanez.sarapp.navigation.invoiceslist;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,9 +26,11 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
 
     Context mContext;
     InvoicesCursor mInvoicesCursor;
+    InvoicesListAdapterCallbacks mListener;
 
-    public InvoicesListAdapter(Context context) {
+    public InvoicesListAdapter(Context context, InvoicesListAdapterCallbacks listener) {
         mContext = context;
+        mListener = listener;
     }
 
     public void swapCursor(Cursor cursor) {
@@ -44,8 +48,7 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
             return;
 
         String invoiceId = mInvoicesCursor.invoiceAt(position).id;
-        Intent intent = InvoiceViewActivity.launchIntent(mContext, invoiceId);
-        mContext.startActivity(intent);
+        mListener.onInvoiceClicked(position, invoiceId);
     }
 
     @Override
@@ -87,6 +90,10 @@ public class InvoicesListAdapter extends RecyclerView.Adapter<InvoicesListAdapte
             super(view);
             ButterKnife.bind(this, view);
         }
+    }
+
+    public interface InvoicesListAdapterCallbacks {
+        void onInvoiceClicked(int position, String invoiceId);
     }
 
 }

@@ -27,6 +27,10 @@ public class RegistrationFragment extends Fragment {
 
     @Bind(R.id.root) View mRootView;
     @Bind(R.id.progress_bar) ProgressBar mProgressBarView;
+    @Bind(R.id.email) TextView mEmailView;
+    @Bind(R.id.password) TextView mPasswordView;
+    @Bind(R.id.first_name) TextView mFirstNameView;
+    @Bind(R.id.last_name) TextView mLastNameView;
     @Bind(R.id.help) TextView mHelpView;
 
     public static RegistrationFragment newInstance() {
@@ -59,10 +63,10 @@ public class RegistrationFragment extends Fragment {
         mProgressBarView.setVisibility(View.VISIBLE);
 
         RegistrationRequest registrationRequest = new RegistrationRequest(
-                "",
-                "",
-                "",
-                ""
+                mEmailView.getText().toString(),
+                mPasswordView.getText().toString(),
+                mFirstNameView.getText().toString(),
+                mLastNameView.getText().toString()
         );
         new RegistrationTask().execute(registrationRequest);
     }

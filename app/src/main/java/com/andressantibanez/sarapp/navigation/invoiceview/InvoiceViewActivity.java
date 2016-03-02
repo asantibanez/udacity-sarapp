@@ -25,6 +25,8 @@ import com.andressantibanez.sarapp.database.invoices.InvoicesCursor;
 import com.andressantibanez.sarapp.database.invoices.InvoicesSelection;
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.UpdateDetailExpenseTypeResponse;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.List;
 
@@ -58,6 +60,11 @@ public class InvoiceViewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_view);
         ButterKnife.bind(this);
+
+        //Add Ad for revenue
+        AdView mAdView = (AdView) findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
 
         setupToolbar();
 

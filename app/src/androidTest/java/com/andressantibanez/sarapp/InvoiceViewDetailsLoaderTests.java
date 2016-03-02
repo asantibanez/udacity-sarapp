@@ -1,9 +1,6 @@
 package com.andressantibanez.sarapp;
 
-import android.database.Cursor;
-
 import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetail;
-import com.andressantibanez.sarapp.database.invoicedetails.InvoiceDetailsCursor;
 import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewDetailsLoader;
 import com.andressantibanez.sarapp.testing.TestHelper;
 

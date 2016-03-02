@@ -108,7 +108,7 @@ public class AddInvoiceActivity extends AppCompatActivity {
                 }
 
                 mProgressBar.setVisibility(View.GONE);
-                mProgressBar.setVisibility(View.VISIBLE);
+                mAttachInvoiceButton.setEnabled(true);
             }
         };
 

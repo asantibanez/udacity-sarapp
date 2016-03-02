@@ -36,7 +36,14 @@ public class InvoicesCursor extends BaseCursor {
     }
 
     public ArrayList<Invoice> all() {
-        return null;
+        ArrayList<Invoice> invoices = new ArrayList<>();
+
+        while (hasRecords() && !isAfterLast()) {
+            invoices.add(invoice());
+            moveToNext();
+        }
+
+        return invoices;
     }
 
     public Invoice first() {

@@ -72,4 +72,6 @@
 
     <string name="no_invoices_found">No invoices found</string>
 
+    <string name="invalid_file">Invalid file</string>
+
 </resources>

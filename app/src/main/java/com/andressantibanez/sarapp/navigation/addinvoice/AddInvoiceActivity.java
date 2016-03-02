@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.andressantibanez.sarapp.R;
+import com.andressantibanez.sarapp.Sarapp;
+import com.andressantibanez.sarapp.navigation.authentication.AuthenticationActivity;
 import com.andressantibanez.sarapp.navigation.invoiceview.InvoiceViewActivity;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
@@ -47,6 +49,11 @@ public class AddInvoiceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_invoice);
         ButterKnife.bind(this);
+
+        if(Sarapp.instance().getToken().length() == 0) {
+            startActivity(AuthenticationActivity.launchIntent(this));
+            finish();
+        }
 
         setSupportActionBar(mToolbarView);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

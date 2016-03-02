@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.andressantibanez.sarapp.R;
 import com.andressantibanez.sarapp.Sarapp;
 import com.andressantibanez.sarapp.endpoints.SarappWebService;
 import com.andressantibanez.sarapp.endpoints.dtos.UploadInvoiceFileResponse;
 import com.andressantibanez.sarapp.endpoints.dtos.UploadedInvoiceFileToInvoiceResponse;
+
+import java.io.File;
 
 /**
  * Created by asantibanez on 2/27/16.
@@ -39,6 +42,12 @@ public class AddInvoiceIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         String broadcastChannel = intent.getStringExtra(BROADCAST_CHANNEL);
         String filePath = intent.getStringExtra(FILE_PATH);
+
+        //Check if file exists
+        if( !new File(filePath).exists() ) {
+            sendOperationErrorBroadcast(broadcastChannel, getString(R.string.invalid_file));
+            return;
+        }
 
         //Upload file
         UploadInvoiceFileResponse uploadInvoiceFileResponse;

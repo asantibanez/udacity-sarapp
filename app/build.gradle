@@ -14,10 +14,21 @@ android {
         //Tray Authority
         resValue "string", "tray__authority", "${applicationId}.tray" //
     }
+
+    signingConfigs {
+        release {
+            storeFile file("signing/nanodegree.jks")
+            storePassword "nanodegree"
+            keyAlias "nanodegree"
+            keyPassword "nanodegree"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }

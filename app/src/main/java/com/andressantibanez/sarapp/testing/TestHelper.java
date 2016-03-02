@@ -30,9 +30,11 @@ public class TestHelper {
         ;
     }
 
-    public static String uploadInvoiceFileAndGetId(Object object) {
+    public static String uploadInvoiceFileAndGetId(Object object, String fileName) {
+        //String fileName = "res/test_invoice_file.xml";
+//        String fileName = "res/test_invalid_file.xml";
         String filePath = TestHelper.getAbsouluteFilePathForTestResource(
-                object, "res/test_invoice_file.xml"
+                object, fileName
         );
 
         UploadInvoiceFileResponse uploadInvoiceFileResponse;

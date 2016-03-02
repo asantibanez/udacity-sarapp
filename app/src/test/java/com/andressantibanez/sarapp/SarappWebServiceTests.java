@@ -113,8 +113,26 @@ public class SarappWebServiceTests {
 
     @Test
     public void uploadInvoiceFile() {
+        String fileName = "res/test_invoice_file.xml";
         String filePath = TestHelper.getAbsouluteFilePathForTestResource(
-                this, "res/test_invoice_file.xml"
+                this, fileName
+        );
+
+        UploadInvoiceFileResponse uploadInvoiceFileResponse;
+        uploadInvoiceFileResponse = SarappWebService.create().uploadInvoceFile(
+                TestHelper.getValidLoginToken(), filePath
+        );
+
+        Assert.assertThat(uploadInvoiceFileResponse, notNullValue());
+        Assert.assertThat(uploadInvoiceFileResponse.hasErrors(), is(false));
+        Assert.assertThat(uploadInvoiceFileResponse.electronicInvoiceId.length() > 0, is(true));
+    }
+
+    @Test
+    public void testUploadInvalidInvoiceFile() {
+        String fileName = "res/test_invalid_file.xml";
+        String filePath = TestHelper.getAbsouluteFilePathForTestResource(
+                this, fileName
         );
 
         UploadInvoiceFileResponse uploadInvoiceFileResponse;
@@ -130,7 +148,23 @@ public class SarappWebServiceTests {
 
     @Test
     public void uploadedInvoiceFileToInvoice() {
-        String electronicInvoiceId = TestHelper.uploadInvoiceFileAndGetId(this);
+        String fileName = "res/test_invoice_file.xml";
+        String electronicInvoiceId = TestHelper.uploadInvoiceFileAndGetId(this, fileName);
+        Assert.assertThat(electronicInvoiceId, notNullValue());
+        Assert.assertThat(electronicInvoiceId.length() > 0, is(true));
+
+        UploadedInvoiceFileToInvoiceResponse uploadedInvoiceFileToInvoiceResponse =
+                SarappWebService.create().uploadedInvoiceFileToInvoice(
+                        TestHelper.getValidLoginToken(), electronicInvoiceId
+                );
+
+        Assert.assertThat(uploadedInvoiceFileToInvoiceResponse, notNullValue());
+    }
+
+    @Test
+    public void uploadedInvalidInvoiceFileToInvoice() {
+        String fileName = "res/test_invalid_file.xml";
+        String electronicInvoiceId = TestHelper.uploadInvoiceFileAndGetId(this, fileName);
         Assert.assertThat(electronicInvoiceId, notNullValue());
         Assert.assertThat(electronicInvoiceId.length() > 0, is(true));
 

@@ -54,6 +54,7 @@ dependencies {
     compile 'com.nononsenseapps:filepicker:2.5.2'
 
     compile 'com.google.android.gms:play-services-ads:8.4.0'
+    compile 'com.google.android.gms:play-services-analytics:8.4.0'
 }
 
 task copyResDirectoryToClasses(type: Copy){
@@ -61,3 +62,5 @@ task copyResDirectoryToClasses(type: Copy){
     into "${buildDir}/intermediates/classes/test/debug/res"
 }
 assembleDebug.dependsOn(copyResDirectoryToClasses);
+
+apply plugin: 'com.google.gms.google-services'
